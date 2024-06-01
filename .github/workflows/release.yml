@@ -45,4 +45,5 @@ jobs:
 
       - name: Push charts to GHCR
         run: |
+            find .
             helm push . "oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/charts"
