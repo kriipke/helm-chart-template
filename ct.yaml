@@ -19,6 +19,7 @@ charts:
   - ./
 chart-dirs:
   - ./
+print-config: true
 
 
 namespace: example
