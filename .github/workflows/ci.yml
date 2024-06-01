@@ -25,28 +25,11 @@ jobs:
         uses: helm/chart-testing-action@v2.6.1
 
 
-      - name: Install helm-docs
-        run: | 
-          wget -O /tmp/helm-docs.deb https://github.com/norwoodj/helm-docs/releases/download/v1.11.0/helm-docs_1.11.0_Linux_x86_64.deb
-          sudo dpkg -i /tmp/helm-docs.deb
-
       - name: Collect changes
         id: collect-changes
         uses: ./.github/actions/collect-changes
 
-      - name: Generate README for changed charts
-        if: |
-          steps.collect-changes.outputs.changesDetected == 'true'
-        run: |
-          set -xv
-          CHARTS=(${{ steps.collect-changes.outputs.addedOrModifiedCharts }})
-          for i in "${CHARTS[@]}"
-          do
-              IFS='/' read -r -a chart_parts <<< "$i"
-              if [ -f "${chart_parts[0]}"/"${chart_parts[1]}/Chart.yaml" ]; then
-                ./.github/scripts/gen-helm-docs.sh "${chart_parts[0]}" "${chart_parts[1]}"
-              fi
-          done
+
 
       - name: Create commit
         id: create-commit
@@ -70,21 +53,21 @@ jobs:
       - name: Run chart-testing (list-changed)
         id: list-changed
         run: |
-          changed=$(ct list-changed --chart-dirs . --charts . --target-branch ${{ github.event.repository.default_branch }})
-          if [[ -n "$changed" ]]; then
+          #changed=$(ct list-changed  --config ct.yaml --target-branch ${{ github.event.repository.default_branch }})
+          #if [[ -n "$changed" ]]; then
             echo "changed=true" >> "$GITHUB_OUTPUT"
-          fi
+          #fi
 
       - name: Run chart-testing (lint)
-        if: steps.list-changed.outputs.changed == 'true'
-        run: ct lint --chart-dirs . --charts . --target-branch ${{ github.event.repository.default_branch }}
+        #if: steps.list-changed.outputs.changed == 'true'
+        run: ct lint --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
 
       - name: Create kind cluster
-        if: steps.list-changed.outputs.changed == 'true'
+        #if: steps.list-changed.outputs.changed == 'true'
         uses: helm/kind-action@v1.10.0
 
       - name: Run chart-testing (install)
-        if: steps.list-changed.outputs.changed == 'true'
+        #if: steps.list-changed.outputs.changed == 'true'
         run: ct install --chart-dirs . --charts . --target-branch ${{ github.event.repository.default_branch }}
       - name: Run chart-testing (lint)
         run: ct list-changed --chart-dirs . --charts . --target-branch ${{ github.event.repository.default_branch }}
