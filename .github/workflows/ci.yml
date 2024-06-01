@@ -38,11 +38,12 @@ jobs:
         if: |
           steps.collect-changes.outputs.changesDetected == 'true'
         run: |
+          set -xv
           CHARTS=(${{ steps.collect-changes.outputs.addedOrModifiedCharts }})
           for i in "${CHARTS[@]}"
           do
               IFS='/' read -r -a chart_parts <<< "$i"
-              if [ -f "charts/${chart_parts[0]}"/"${chart_parts[1]}/Chart.yaml" ]; then
+              if [ -f "${chart_parts[0]}"/"${chart_parts[1]}/Chart.yaml" ]; then
                 ./.github/scripts/gen-helm-docs.sh "${chart_parts[0]}" "${chart_parts[1]}"
               fi
           done
