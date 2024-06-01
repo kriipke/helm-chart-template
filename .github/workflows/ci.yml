@@ -1,5 +1,4 @@
-name: Lint and Test Charts
-
+name: Linting & Running of Tests
 on: push
 
 jobs:
