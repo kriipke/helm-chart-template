@@ -47,4 +47,4 @@ jobs:
         run: |
             helm package .
             find .
-            helm push . "oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/charts"
+            helm push *.tgz "oci://ghcr.io/${GITHUB_REPOSITORY_OWNER}/charts"
