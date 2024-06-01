@@ -5,6 +5,8 @@
 #       all the tests in templates/tests/*.yaml
 #       will be checked.
 
+debug: true
+
 ################################################
 # github
 ################################################
