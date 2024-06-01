@@ -30,5 +30,5 @@ release-label: chart-template
 
 validate-maintainers: false
 validate-chart-schema: true
-validate-yaml: false
+validate-yaml: true
 # check-version-increment: true 
