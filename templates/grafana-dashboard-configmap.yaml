@@ -2,9 +2,9 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "chart.fullname" . }}-grafana-dashboard
+  name: {{ include "chart-template.fullname" . }}-grafana-dashboard
   labels:
-    {{- include "chart.labels" . | nindent 4 }}
+    {{- include "chart-template.labels" . | nindent 4 }}
 data:
   example-dashboard2.json: {}
   example-dashboard.json: |-
