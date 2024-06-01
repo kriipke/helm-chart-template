@@ -70,6 +70,7 @@ jobs:
         #if: steps.list-changed.outputs.changed == 'true'
         run: |
           curl -sSL https://raw.githubusercontent.com/argoproj/argo-rollouts/master/manifests/crds/rollout-crd.yaml | kubectl apply -f -
-          ct install  --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
+          kubectl create ns example
+          ct install --helm-extra-set-args "--create-namespace" --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
       - name: Run chart-testing (lint)
         run: ct list-changed  --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
