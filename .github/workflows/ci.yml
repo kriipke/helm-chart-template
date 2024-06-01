@@ -59,7 +59,7 @@ jobs:
 
       - name: Run chart-testing (lint)
         #if: steps.list-changed.outputs.changed == 'true'
-        run: ct lint --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
+        run: ct lint  --lint-conf lintconf.yaml --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
 
       - name: Create kind cluster
         #if: steps.list-changed.outputs.changed == 'true'
@@ -70,6 +70,6 @@ jobs:
         run: |
           curl -sSL https://raw.githubusercontent.com/argoproj/argo-rollouts/master/manifests/crds/rollout-crd.yaml | kubectl apply -f -
           kubectl create ns example
-          ct install --helm-extra-set-args "--create-namespace" --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
+          ct install --lint-conf lintconf.yaml  --helm-extra-set-args "--create-namespace" --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
       - name: Run chart-testing (lint)
         run: ct list-changed  --config ct.yaml --target-branch ${{ github.event.repository.default_branch }}
