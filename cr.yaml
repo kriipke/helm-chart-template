@@ -1,0 +1,4 @@
+version: v1.6.1
+charts_dir: .
+mark_as_latest: true
+packages_with_index: true
